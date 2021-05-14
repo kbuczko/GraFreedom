@@ -9,10 +9,10 @@ class Game(object):
     """
 
     def text_objects(text, font):
-        textSurface = font.render(text, True, black)
+        textSurface = font.render(text, True)
         return textSurface, textSurface.get_rect()
 
-    def __init__(self, width, ai_turn=False):
+    def __init__(self, width):
         """
         Przygotowanie ustawień gry
         :param width: szerokość planszy mierzona w pikselach
@@ -25,6 +25,7 @@ class Game(object):
         self.board = Board(width)
 
 
+
     def run(self):
         """
         Główna pętla gry
@@ -32,9 +33,7 @@ class Game(object):
         while not self.handle_events():
             # działaj w pętli do momentu otrzymania sygnału do wyjścia
             self.board.draw()
-           # if self.ai_turn:
-                #self.ai.make_turn()
-                #self.ai_turn = False
+
             self.fps_clock.tick(15)
 
     def handle_events(self):
@@ -49,10 +48,6 @@ class Game(object):
                 return True
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                #if self.ai_turn:
-                    # jeśli jeszcze trwa ruch komputera to ignorujemy zdarzenia
-                    #continue
                 # pobierz aktualną pozycję kursora na planszy mierzoną w pikselach
                 x, y = pygame.mouse.get_pos()
                 self.board.player_move(x, y)
-                self.ai_turn = True
