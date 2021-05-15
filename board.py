@@ -3,6 +3,7 @@ import pygame
 
 class Board(object):
 
+    player = 'white'
 
     # konstruktor planszy gry
     def __init__(self, width):
@@ -54,7 +55,12 @@ class Board(object):
         cell_size = self.surface.get_width() / 10
         x /= cell_size
         y /= cell_size
-        self.markers[int(x) + int(y) * 10] = player_marker(False)
+        if self.player == "white":
+            self.markers[int(x) + int(y) * 10] = player_marker(True)
+            self.player = "black"
+        else:
+            self.markers[int(x) + int(y) * 10] = player_marker(False)
+            self.player == "white"
 
     def draw_markers(self):
         """
@@ -116,7 +122,11 @@ def player_marker(x_player):
     :param x_player: True dla gracza X False dla gracza O
     :return: odpowiedni znak gracza
     """
-    return "X" if x_player else "O"
+    if(x_player == 'white'):
+        return "X"
+    else:
+        return "O"
+    #return "X" if x_player else "O"
 
 
 def check_win(markers, x_player):

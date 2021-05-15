@@ -39,7 +39,7 @@ def text_objects(text, font):
 
 
 def message_display(text):
-    largeText = pygame.font.Font('freesansbold.ttf', 100)
+    largeText = pygame.font.SysFont('Helvetica', 100)
     TextSurf, TextRect = text_objects(text, largeText)
     TextRect.center = ((display_width / 2), (display_height / 2))
     gameDisplay.blit(TextSurf, TextRect)
@@ -66,7 +66,7 @@ def button(msg, x, y, w, h, ic, ac, action=None):
     else:
         pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
 
-    smallText = pygame.font.Font("freesansbold.ttf", 20)
+    smallText = pygame.font.SysFont('Helvetica', 20)
     textSurf, textRect = text_objects(msg, smallText)
     textRect.center = ((x + (w / 2)), (y + (h / 2)))
     gameDisplay.blit(textSurf, textRect)
@@ -80,7 +80,7 @@ def play_choice():
         # wyswietlenie tla
         gameDisplay.blit(background_image, [0, 0])
 
-        largeText = pygame.font.Font('freesansbold.ttf', 50)
+        largeText = pygame.font.SysFont('Helvetica', 50)
         TextSurf, TextRect = text_objects("Choose a mode", largeText)
         TextRect.center = ((display_width / 2), (display_height - 500))
         gameDisplay.blit(TextSurf, TextRect)
@@ -94,6 +94,7 @@ def play_choice():
                     running = False
 
 
+        print(pygame.font.get_fonts())
         button("Player vs Player", 300, 190, 195, 75, (235, 161, 52), (235, 143, 52), game_loop)
         button("Player vs Computer", 300, 340, 195, 75, (235, 161, 52), (235, 143, 52), "to-do")
         button("Back", 300, 490, 195, 75, (235, 161, 52), (235, 143, 52), game_intro)
@@ -123,7 +124,7 @@ def game_intro():
         gameDisplay.fill(white)
         #wyswietlenie tla
         gameDisplay.blit(background_image, [0, 0])
-        largeText = pygame.font.Font('freesansbold.ttf', 100)
+        largeText = pygame.font.SysFont('Helvetica', 100)
         TextSurf, TextRect = text_objects("Freedom Game", largeText)
         TextRect.center = ((display_width / 2), (display_height - 400))
         gameDisplay.blit(TextSurf, TextRect)

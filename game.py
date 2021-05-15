@@ -7,6 +7,7 @@ class Game(object):
     """
     Łączy wszystkie elementy gry w całość.
     """
+    player = 'white'
 
     def text_objects(text, font):
         textSurface = font.render(text, True)
