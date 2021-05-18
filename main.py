@@ -94,7 +94,6 @@ def play_choice():
                     running = False
 
 
-        print(pygame.font.get_fonts())
         button("Player vs Player", 300, 190, 195, 75, (235, 161, 52), (235, 143, 52), game_loop)
         button("Player vs Computer", 300, 340, 195, 75, (235, 161, 52), (235, 143, 52), "to-do")
         button("Back", 300, 490, 195, 75, (235, 161, 52), (235, 143, 52), game_intro)

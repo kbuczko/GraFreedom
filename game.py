@@ -25,8 +25,6 @@ class Game(object):
 
         self.board = Board(width)
 
-
-
     def run(self):
         """
         Główna pętla gry
