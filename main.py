@@ -14,6 +14,7 @@ background_image = pygame.image.load("images/tlo.jpg")
 def game_loop():
     game = Game(700)
     game.run()
+    
 
 display_width = 800
 display_height = 600
@@ -24,13 +25,11 @@ red = (255, 0, 0)
 
 block_color = (53, 115, 255)
 
-car_width = 73
-
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('Freedom')
 clock = pygame.time.Clock()
 
-#pygame.display.set_icon(carImg)
+
 
 
 def text_objects(text, font):
@@ -70,6 +69,7 @@ def button(msg, x, y, w, h, ic, ac, action=None):
     textSurf, textRect = text_objects(msg, smallText)
     textRect.center = ((x + (w / 2)), (y + (h / 2)))
     gameDisplay.blit(textSurf, textRect)
+
 
 
 def play_choice():

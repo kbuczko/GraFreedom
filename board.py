@@ -1,6 +1,5 @@
 import pygame
 
-
 class Board(object):
 
     player = "white"
@@ -31,8 +30,6 @@ class Board(object):
         for drawable in args:
             drawable.draw_on(self.surface)
 
-        # dopiero w tym miejscu następuje fatyczne rysowanie
-        # w oknie gry, wcześniej tylko ustalaliśmy co i jak ma zostać narysowane
         pygame.display.update()
 
     def draw_net(self):
@@ -55,8 +52,10 @@ class Board(object):
         cell_size = self.surface.get_width() / 10
         x /= cell_size
         y /= cell_size
+
         if self.player == "white":
             self.markers[int(x) + int(y) * 10] = player_marker(True)
+            largeText = pygame.font.SysFont('Helvetica', 50)
         else:
             self.markers[int(x) + int(y) * 10] = player_marker(False)
         if self.player == "white":
@@ -95,9 +94,9 @@ class Board(object):
         Sprawdza czy gra została skończona i rysuje właściwy komunikat
         """
         if check_win(self.markers, True):
-            score = u"Wygrałeś(aś)"
+            score = u"Wygrał gracz X"
         elif check_win(self.markers, True):
-            score = u"Przegrałeś(aś)"
+            score = u"Wygrał gracz 0"
         elif None not in self.markers:
             score = u"Remis!"
         else:
@@ -124,16 +123,18 @@ def player_marker(x_player):
     :param x_player: True dla gracza X False dla gracza O
     :return: odpowiedni znak gracza
     """
-    return "X" if x_player else "O"
+    return "B" if x_player else "C"
 
 
 def check_win(markers, x_player):
     """
-    Sprawdza czy przekazany zestaw znaczników gry oznacza zwycięstwo wskazanego gracza
+    #Sprawdza czy przekazany zestaw znaczników gry oznacza zwycięstwo wskazanego gracza
 
-    :param markers: jednowymiarowa sekwencja znaczników w
-    :param x_player: True dla gracza X False dla gracza O
-    """
+    #:param markers: jednowymiarowa sekwencja znaczników w
+    #:param x_player: True dla gracza X False dla gracza O
+    
+    
+    
     win = [player_marker(x_player)] * 4
     seq = range(4)
 
@@ -159,3 +160,4 @@ def check_win(markers, x_player):
     diagonal2 = [marker(i, abs(i-2)) for i in seq]
     if diagonal1 == win or diagonal2 == win:
         return True
+"""
