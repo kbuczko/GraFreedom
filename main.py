@@ -14,7 +14,7 @@ background_image = pygame.image.load("images/tlo.jpg")
 def game_loop():
     game = Game(700)
     game.run()
-    
+
 
 display_width = 800
 display_height = 600
@@ -95,7 +95,7 @@ def play_choice():
 
 
         button("Player vs Player", 300, 190, 195, 75, (235, 161, 52), (235, 143, 52), game_loop)
-        button("Player vs Computer", 300, 340, 195, 75, (235, 161, 52), (235, 143, 52), "to-do")
+        button("Player vs Computer", 300, 340, 195, 75, (235, 161, 52), (235, 143, 52), game_loop)
         button("Back", 300, 490, 195, 75, (235, 161, 52), (235, 143, 52), game_intro)
 
         pygame.display.update()

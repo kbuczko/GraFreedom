@@ -15,6 +15,8 @@ class Board(object):
 
         # tablica znaczników 10x10 w formie listy
         self.markers = [None] * 100
+        
+
 
     def draw(self, *args):
         """
@@ -26,11 +28,15 @@ class Board(object):
         self.draw_net()
         self.draw_markers()
         self.draw_score()
+        if(self.player == "white"):
+            self.draw_text(self.surface, "Tura gracza: " + self.player, (self.surface.get_width()/2, self.surface.get_width()-50))
+        else:
+            self.draw_text(self.surface, "Tura gracza: " + self.player, (self.surface.get_width()/2, self.surface.get_width()-50), (0,0,0))
         for drawable in args:
             drawable.draw_on(self.surface)
 
         pygame.display.update()
-
+        
     def draw_net(self):
         """
         Rysuje siatkę linii na planszy
@@ -43,6 +49,8 @@ class Board(object):
             pygame.draw.line(self.surface, color, (0, pos), (width, pos), 1)
             # linia pionowa
             pygame.draw.line(self.surface, color, (pos, 0), (pos, width), 1)
+        #pygame.draw.line(self.surface, color, (600, 0), (600, width), 1)
+        #pygame.draw.line(self.surface, color, (0, 600), (width, 600), 1)
 
     def player_move(self, x, y):
         """
@@ -77,6 +85,7 @@ class Board(object):
                 center_y = y * box_side + box_side / 2
 
                 self.draw_text(self.surface, marker, (center_x, center_y))
+               
                
 
     def draw_text(self, surface,  text, center, color=(255,255,255)):

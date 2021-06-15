@@ -7,6 +7,8 @@ import board
 from board import Board
 
 
+
+
 class Game(object):
     """
     Łączy wszystkie elementy gry w całość.
@@ -23,9 +25,8 @@ class Game(object):
 
     table = [[0 for i in range(10)] for j in range(10)]
     table2 = [[0 for i in range(10)] for j in range(10)]
-    def text_objects(text, font):
-        textSurface = font.render(text, True)
-        return textSurface, textSurface.get_rect()
+    
+    
 
     def __init__(self, width):
         """
@@ -287,3 +288,5 @@ class Game(object):
                     #print(self.table2)
 
                 print(self.table2)
+                
+
