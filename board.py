@@ -19,9 +19,8 @@ class Board(object):
     def draw(self, *args):
         """
         Rysuje okno gry
-
-        :param args: lista obiektów do narysowania
         """
+        
         background = (210, 180, 140)
         self.surface.fill(background)
         self.draw_net()
@@ -56,12 +55,11 @@ class Board(object):
         if self.player == "white":
             self.markers[int(x) + int(y) * 10] = player_marker(True)
             largeText = pygame.font.SysFont('Helvetica', 50)
-        else:
-            self.markers[int(x) + int(y) * 10] = player_marker(False)
-        if self.player == "white":
             self.player = "black"
         else:
+            self.markers[int(x) + int(y) * 10] = player_marker(False)
             self.player = "white"
+            
 
     def draw_markers(self):
         """
@@ -79,8 +77,9 @@ class Board(object):
                 center_y = y * box_side + box_side / 2
 
                 self.draw_text(self.surface, marker, (center_x, center_y))
+               
 
-    def draw_text(self, surface,  text, center, color=(100, 180, 180)):
+    def draw_text(self, surface,  text, center, color=(255,255,255)):
         """
         Rysuje wskazany tekst we wskazanym miejscu
         """
@@ -123,7 +122,7 @@ def player_marker(x_player):
     :param x_player: True dla gracza X False dla gracza O
     :return: odpowiedni znak gracza
     """
-    return "B" if x_player else "C"
+    return "o" if x_player else "O"
 
 
 def check_win(markers, x_player):
