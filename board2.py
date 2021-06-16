@@ -13,13 +13,10 @@ pygame.display.set_caption("Freedom")
 ORANGE = (252, 195, 134)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-GRAY = (200, 200, 200)
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)
 
 # Images
 white_IMAGE = pygame.transform.scale(pygame.image.load("images/pionek_bialyy.jpg"), (55, 55))
-O_IMAGE = pygame.transform.scale(pygame.image.load("images/pionek_czarnyy.jpg"), (55, 55))
+black_IMAGE = pygame.transform.scale(pygame.image.load("images/pionek_czarnyy.jpg"), (55, 55))
 
 # Fonts
 END_FONT = pygame.font.SysFont('arial', 40)
@@ -29,8 +26,8 @@ draw = False
 
 run = True
 
-x_turn = True
-o_turn = False
+white_turn = True
+black_turn = False
 
 class board(object):
     
@@ -47,6 +44,7 @@ class board(object):
             pygame.draw.line(win, BLACK, (x, 0), (x, WIDTH), 1)
             pygame.draw.line(win, BLACK, (0, x), (WIDTH, x), 1)
         pygame.draw.line(win, BLACK, (10*gap, 0), (10*gap, WIDTH), 1)
+        
 
     def initialize_grid(self):
         dis_to_cen = WIDTH // ROWS // 2
@@ -81,7 +79,7 @@ class board(object):
 
 
     def player_move(self, game_array):
-        global x_turn, o_turn, images
+        global white_turn, black_turn, images
 
         # Mouse position
         m_x, m_y = pygame.mouse.get_pos()
@@ -95,54 +93,19 @@ class board(object):
 
                 # If it's inside the square
                 if dis < WIDTH // ROWS // 2 and can_play:
-                    if x_turn:  # If it's X's turn
+                    if white_turn:  # white turn
                         images.append((x, y, white_IMAGE))
-                        x_turn = False
-                        o_turn = True
+                        white_turn = False
+                        black_turn = True
                         game_array[i][j] = (x, y, 'x', False)
 
-                    elif o_turn:  # If it's O's turn
-                        images.append((x, y, O_IMAGE))
-                        x_turn = True
-                        o_turn = False
+                    elif black_turn:  # black turn
+                        images.append((x, y, black_IMAGE))
+                        white_turn = True
+                        black_turn = False
                         game_array[i][j] = (x, y, 'o', False)
 
                         
-    def has_drawn(self, game_array):
-        for i in range(len(game_array)):
-            for j in range(len(game_array[i])):
-                if game_array[i][j][2] == "":
-                    return False
-
-        display_message("It's a draw!")
-        return True
-    
-# Checking if someone has won
-"""def has_won(game_array):
-    # Checking rows
-    for row in range(len(game_array)):
-        if (game_array[row][0][2] == game_array[row][1][2] == game_array[row][2][2]) and game_array[row][0][2] != "":
-            display_message(game_array[row][0][2].upper() + " has won!")
-            return True
-
-    # Checking columns
-    for col in range(len(game_array)):
-        if (game_array[0][col][2] == game_array[1][col][2] == game_array[2][col][2]) and game_array[0][col][2] != "":
-            display_message(game_array[0][col][2].upper() + " has won!")
-            return True
-
-    # Checking main diagonal
-    if (game_array[0][0][2] == game_array[1][1][2] == game_array[2][2][2]) and game_array[0][0][2] != "":
-        display_message(game_array[0][0][2].upper() + " has won!")
-        return True
-
-    # Checking reverse diagonal
-    if (game_array[0][2][2] == game_array[1][1][2] == game_array[2][0][2]) and game_array[0][2][2] != "":
-        display_message(game_array[0][2][2].upper() + " has won!")
-        return True
-
-    return False
-"""
 
    
 
