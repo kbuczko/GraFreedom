@@ -3,7 +3,6 @@ import time
 import random
 
 from game import Game
-from board import Board
 
 
 pygame.init()
@@ -12,9 +11,8 @@ pygame.init()
 background_image = pygame.image.load("images/tlo.jpg")
 
 def game_loop():
-    game = Game(700)
+    game = Game(600)
     game.run()
-
 
 display_width = 800
 display_height = 600

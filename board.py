@@ -101,18 +101,16 @@ class Board(object):
         """
         Sprawdza czy gra została skończona i rysuje właściwy komunikat
         """
-        if check_win(self.markers, True):
-            score = u"Wygrał gracz X"
-        elif check_win(self.markers, True):
-            score = u"Wygrał gracz 0"
-        elif None not in self.markers:
-            score = u"Remis!"
+        if check_score(self.markers, True):
+            i = self.surface.get_width() / 2
+            self.draw_text(self.surface, "a", center=(i, i), color=(255, 26, 26))
+        elif check_score(self.markers, False):
+            i = self.surface.get_width() / 2
+            self.draw_text(self.surface, "b", center=(i, i), color=(255, 26, 26))
         else:
             return
 
-        i = self.surface.get_width() / 2
-        self.draw_text(self.surface, score, center=(i, i), color=(255, 26, 26))
-
+        
     def game_intro(self):
         width = self.surface.get_width()
         intro = True
@@ -123,7 +121,31 @@ class Board(object):
                     quit()
             self.surface.fill((255, 255, 255))
             i = self.surface.get_width() / 2
-            self.draw_text(self.surface, u"Wygrałeś(aś)", center=(i, i), color=(0, 0, 0))
+           
+
+def check_score(markers, x_player):
+    point = [player_marker(x_player)] * 4
+    seq = range(4)
+
+
+    def marker(xx, yy):
+        return markers[xx + yy * 4]
+
+    for x in seq:
+        row = [marker(x, y) for y in seq]
+        if row == point:
+            return True
+
+    for y in seq:
+        col = [marker(x, y) for x in seq]
+        if col == point:
+            return True
+
+    diagonal1 = [marker(i, i) for i in seq]
+    diagonal2 = [marker(i, abs(i-2)) for i in seq]
+    if diagonal1 == point or diagonal2 == point:
+        return True
+
 
 def player_marker(x_player):
     """
@@ -134,38 +156,3 @@ def player_marker(x_player):
     return "o" if x_player else "O"
 
 
-def check_win(markers, x_player):
-    """
-    #Sprawdza czy przekazany zestaw znaczników gry oznacza zwycięstwo wskazanego gracza
-
-    #:param markers: jednowymiarowa sekwencja znaczników w
-    #:param x_player: True dla gracza X False dla gracza O
-    
-    
-    
-    win = [player_marker(x_player)] * 4
-    seq = range(4)
-
-    # definiujemy funkcję pomocniczą pobierającą znacznik
-    # na podstawie współrzędnych x i y
-    def marker(xx, yy):
-        return markers[xx + yy * 3]
-
-    # sprawdzamy każdy rząd
-    for x in seq:
-        row = [marker(x, y) for y in seq]
-        if row == win:
-            return True
-
-    # sprawdzamy każdą kolumnę
-    for y in seq:
-        col = [marker(x, y) for x in seq]
-        if col == win:
-            return True
-
-    # sprawdzamy przekątne
-    diagonal1 = [marker(i, i) for i in seq]
-    diagonal2 = [marker(i, abs(i-2)) for i in seq]
-    if diagonal1 == win or diagonal2 == win:
-        return True
-"""
