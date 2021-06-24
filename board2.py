@@ -26,11 +26,20 @@ draw = False
 
 run = True
 
+next_move = []
+
+
+
 white_turn = True
 black_turn = False
 
 class board(object):
-    
+
+    white_pawns = 50
+    black_pawns = 50
+    next_move = []
+    next_moveb = []
+
     def draw_grid(self):
         gap = WIDTH // ROWS
 
@@ -70,7 +79,7 @@ class board(object):
         win.fill(ORANGE)
         self.draw_grid()
 
-        # Drawing X's and O's
+        # Drawing figures
         for image in images:
             x, y, IMAGE = image
             win.blit(IMAGE, (x - IMAGE.get_width() // 2, y - IMAGE.get_height() // 2))
@@ -88,27 +97,44 @@ class board(object):
             for j in range(len(game_array[i])):
                 x, y, char, can_play = game_array[i][j]
 
+                
                 # Distance between mouse and the centre of the square
                 dis = math.sqrt((x - m_x) ** 2 + (y - m_y) ** 2)
 
+                
                 # If it's inside the square
                 if dis < WIDTH // ROWS // 2 and can_play:
                     if white_turn:  # white turn
-                        images.append((x, y, white_IMAGE))
-                        white_turn = False
-                        black_turn = True
-                        game_array[i][j] = (x, y, 'x', False)
-
-                    elif black_turn:  # black turn
+                        if self.white_pawns == 50:
+                            images.append((x, y, white_IMAGE))
+                            white_turn = False
+                            black_turn = True
+                            game_array[i][j] = (x, y, 'w', False)
+                            self.white_pawns = self.white_pawns - 1
+                        elif [x,y] in self.next_move:
+                            images.append((x, y, white_IMAGE))
+                            white_turn = False
+                            black_turn = True
+                            game_array[i][j] = (x, y, 'w', False)
+                            self.white_pawns = self.white_pawns - 1
+                        self.next_moveb = [[x-60,y-60],[x,y-60],[x+60,y],[x,y+60],[x+60,y+60],[x-60,y],[x-60,y+60],[x+60,y-60]]  
+                            
+                    elif black_turn and [x,y] in self.next_moveb:  # black turn
                         images.append((x, y, black_IMAGE))
                         white_turn = True
                         black_turn = False
-                        game_array[i][j] = (x, y, 'o', False)
+                        game_array[i][j] = (x, y, 'b', False)
+                        self.black_pawns = self.black_pawns- 1
+                        self.a = x+60
+                        self.b = y+60
+                        self.next_move = [[x-60,y-60],[x,y-60],[x+60,y],[x,y+60],[x+60,y+60],[x-60,y],[x-60,y+60],[x+60,y-60]]
 
-                        
+                   
 
-   
 
+                
+
+            
 
 
 
