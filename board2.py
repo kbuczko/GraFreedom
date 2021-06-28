@@ -39,6 +39,8 @@ class board(object):
     black_pawns = 50
     next_move = []
     next_moveb = []
+    points_white = 0
+    points_black = 0
 
     def draw_grid(self):
         gap = WIDTH // ROWS
@@ -168,7 +170,7 @@ class board(object):
                                     self.next_moveb= [[x,y+60],[x,y-60],[x-60,y],[x-60,y-60],[x-60,y+60]]
                                 else:
                                     self.next_moveb= [[x,y+60],[x,y-60],[x-60,y],[x-60,y-60],[x-60,y+60],[x+60,y],[x+60,y-60],[x+60,y+60]]
-                        else:
+                        elif (self.next_move ==[]):
                             images.append((x, y, white_IMAGE))
                             white_turn = False
                             black_turn = True
@@ -195,7 +197,8 @@ class board(object):
                                     self.next_moveb= [[x,y+60],[x,y-60],[x-60,y],[x-60,y-60],[x-60,y+60]]
                                 else:
                                     self.next_moveb= [[x,y+60],[x,y-60],[x-60,y],[x-60,y-60],[x-60,y+60],[x+60,y],[x+60,y-60],[x+60,y+60]]
-                                   
+
+                        
                         a = [[item[0], item[1]] for item in images]
                         temp = [element for element in self.next_moveb if element in a]
                         
@@ -207,14 +210,14 @@ class board(object):
                         
 
                     elif black_turn:  # black turn
-                        if([x,y] in self.next_moveb):  
+                        if([x,y] in self.next_moveb):
+                            
                             images.append([x, y, black_IMAGE])
                             white_turn = True
                             black_turn = False
                             game_array[i][j] = (x, y, 'b', False)
                             self.black_pawns = self.black_pawns- 1
-                            self.a = x+60
-                            self.b = y+60
+
                             if(y == 570):
                                 if(x == 30):
                                     self.next_move=[[x,y-60],[x-60,y], [x-60, y+60]]
@@ -236,14 +239,13 @@ class board(object):
                                     self.next_move= [[x,y+60],[x,y-60],[x-60,y],[x-60,y-60],[x-60,y+60]]
                                 else:
                                     self.next_move= [[x,y+60],[x,y-60],[x-60,y],[x-60,y-60],[x-60,y+60],[x+60,y],[x+60,y-60],[x+60,y+60]]
-                        else:
+                        elif self.next_moveb ==[]:
                             images.append([x, y, black_IMAGE])
                             white_turn = True
                             black_turn = False
                             game_array[i][j] = (x, y, 'b', False)
                             self.black_pawns = self.black_pawns- 1
-                            self.a = x+60
-                            self.b = y+60
+                        
                             if(y == 570):
                                 if(x == 30):
                                     self.next_move=[[x,y-60],[x-60,y], [x-60, y+60]]
@@ -267,8 +269,11 @@ class board(object):
                                     self.next_move= [[x,y+60],[x,y-60],[x-60,y],[x-60,y-60],[x-60,y+60],[x+60,y],[x+60,y-60],[x+60,y+60]]
                             
                         a = [[item[0], item[1]] for item in images]
-                        print("CZARNY: ",x,y)
-                        
+                       
+                        for row in range(len(game_array)):
+                                if(game_array[row][0][2] == game_array[row][1][2] == game_array[row][2][2]):
+                                    print("1")
+                                
                        
 
                         temp = [element for element in self.next_move if element in a]
@@ -276,7 +281,7 @@ class board(object):
                         for i in range(len(temp)):
                             self.next_move.remove(temp[i])
 
-                        print("Ruchy: ", self.next_move)
+                        
                         
 
                        
