@@ -284,7 +284,7 @@ class board(object):
             #sprawdzanie wierszy
             for row in range(len(game_array)):
                 q= game_array[row]
-                if(q[t[0]][2] == q[t[1]][2] == q[t[2]][2] == q[t[3]][2]) and q[t[0]][2] == "b":
+                if(q[0][2] == q[1][2] == q[2][2] == q[3][2]) and q[0][2] == "b":
                     self.points_black += 1
                                 
                 elif (q[0][2] == q[1][2] == q[2][2] == q[3][2]) and q[0][2] == "w":
