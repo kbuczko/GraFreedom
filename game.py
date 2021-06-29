@@ -34,6 +34,9 @@ class Game(object):
     table = [[0 for i in range(10)] for j in range(10)]
     table2 = [[0 for i in range(10)] for j in range(10)]
     
+    def finish(self):
+        self.board.finish()
+    
     def display_message(content, self):
         pygame.time.delay(500)
         win.fill(WHITE)
@@ -75,4 +78,7 @@ class Game(object):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.board.player_move(self.game_array)
         self.board.render()
+
+        if(self.finish()):
+            run = False
             

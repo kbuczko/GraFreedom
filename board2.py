@@ -55,6 +55,7 @@ class board(object):
             pygame.draw.line(win, BLACK, (x, 0), (x, WIDTH), 1)
             pygame.draw.line(win, BLACK, (0, x), (WIDTH, x), 1)
         pygame.draw.line(win, BLACK, (10*gap, 0), (10*gap, WIDTH), 1)
+        self.display_message("Tura gracza:", 615, 100)
         
 
     def initialize_grid(self):
@@ -80,16 +81,16 @@ class board(object):
     def render(self):
         win.fill(ORANGE)
         self.draw_grid()
-        self.display_message("Tura gracza:", 615, 100)
-        if(white_turn):
-            self.display_message("Biały", 660, 160)
-        else:
-            self.display_message("Czarny", 650, 160)
+        
         # Drawing figures
         for image in images:
             x, y, IMAGE = image
             win.blit(IMAGE, (x - IMAGE.get_width() // 2, y - IMAGE.get_height() // 2))
 
+        if(white_turn):
+            self.display_message("Biały", 660, 160)
+        else:
+            self.display_message("Czarny", 650, 160)
         pygame.display.update()
 
     def display_message(self,content,x,y):
@@ -97,10 +98,15 @@ class board(object):
         text = END_FONT.render(content, 1, BLACK)
         win.blit(text, (x, y))
         pygame.display.update()
+    
+    def finish(self):
+        if (self.white_pawns == 0 and self.black_pawns == 0):
+            return True
 
     def player_move(self, game_array):
         global white_turn, black_turn, images
 
+        
         # Mouse position
         m_x, m_y = pygame.mouse.get_pos()
 
@@ -125,7 +131,7 @@ class board(object):
                                 if(x == 30):
                                     self.next_moveb=[[x,y-60],[x+60,y], [x+60, y-60]]
                                 elif(x == 570):
-                                    self.next_moveb=[[x,y+60],[x+60,y], [x+60, y+60]]
+                                    self.next_move=[[x,y-60],[x-60,y], [x-60, y-60]]
                                 else:
                                     self.next_moveb = [[x-60,y],[x+60,y],[x-60,y-60],[x+60,y-60],[x,y-60]]
                             elif(y == 30):
@@ -153,7 +159,7 @@ class board(object):
                                 if(x == 30):
                                     self.next_moveb=[[x,y-60],[x+60,y], [x+60, y-60]]
                                 elif(x == 570):
-                                    self.next_moveb=[[x,y+60],[x-60,y], [x-60, y+60]]
+                                   self.next_move=[[x,y-60],[x-60,y], [x-60, y-60]]
                                 else:
                                     self.next_moveb = [[x-60,y],[x+60,y],[x-60,y-60],[x+60,y-60],[x,y-60]]
                             elif(y == 30):
@@ -178,9 +184,9 @@ class board(object):
                             self.white_pawns = self.white_pawns - 1
                             if(y == 570):
                                 if(x == 30):
-                                    self.next_moveb=[[x,y-60],[x+60,y], [x+60, y-60]]
+                                    self.next_moveb=[[x,y+60],[x+60,y], [x+60, y-60]]
                                 elif(x == 570):
-                                    self.next_moveb=[[x,y+60],[x-60,y], [x-60, y+60]]
+                                    self.next_moveb=[[x,y-60],[x-60,y], [x-60, y-60]]
                                 else:
                                     self.next_moveb = [[x-60,y],[x+60,y],[x-60,y-60],[x+60,y-60],[x,y-60]]
                             elif(y == 30):
@@ -205,8 +211,6 @@ class board(object):
                         for i in range(len(temp)):
                             self.next_moveb.remove(temp[i])
                         
-                        print("Biały: ",x,y)
-                        print("Ruchy: ", self.next_moveb)
                         
 
                     elif black_turn:  # black turn
@@ -220,7 +224,7 @@ class board(object):
 
                             if(y == 570):
                                 if(x == 30):
-                                    self.next_move=[[x,y-60],[x-60,y], [x-60, y+60]]
+                                    self.next_move=[[x,y-60],[x+60,y], [x+60, y-60]]
                                 elif(x == 570):
                                     self.next_move=[[x,y-60],[x-60,y], [x-60, y-60]]
                                 else:
@@ -269,19 +273,55 @@ class board(object):
                                     self.next_move= [[x,y+60],[x,y-60],[x-60,y],[x-60,y-60],[x-60,y+60],[x+60,y],[x+60,y-60],[x+60,y+60]]
                             
                         a = [[item[0], item[1]] for item in images]
-                       
-                        for row in range(len(game_array)):
-                                if(game_array[row][0][2] == game_array[row][1][2] == game_array[row][2][2]):
-                                    print("1")
-                                
-                       
+
 
                         temp = [element for element in self.next_move if element in a]
                         
                         for i in range(len(temp)):
                             self.next_move.remove(temp[i])
+        
+        if not(self.finish()):
+            #sprawdzanie wierszy
+            for row in range(len(game_array)):
+                q= game_array[row]
+                if(q[t[0]][2] == q[t[1]][2] == q[t[2]][2] == q[t[3]][2]) and q[t[0]][2] == "b":
+                    self.points_black += 1
+                                
+                elif (q[0][2] == q[1][2] == q[2][2] == q[3][2]) and q[0][2] == "w":
+                    self.points_white += 1
 
-                        
+            #sprawdzanie kolumn
+            for col in range(len(game_array)):
+                if (game_array[0][col][2] == game_array[1][col][2] == game_array[2][col][2] == game_array[3][col][2]) and game_array[0][col][2] == "b":
+                    self.points_black += 1
+                elif (game_array[0][col][2] == game_array[1][col][2] == game_array[2][col][2] == game_array[3][col][2]) and game_array[0][col][2] == "w":
+                    self.points_white += 1
+
+
+            #print(self.points_black, self.points_black)
+            for index, elem in enumerate(game_array):
+                print("PREV: ", game_array[index][index-1])
+                print("EL: ", elem[index])
+                if (index+1 < len(game_array) and index+2 < len(game_array) and index - 1 >= 0):
+                    prev_el = game_array[index][index-1][2]
+                    curr_el = elem[index]
+                    next_el = game_array[index][index+1][2]
+                    next2_el = game_array[index][index+2][2]
+                    if(prev_el == curr_el == next_el == next2_el):
+                        print("1")
+        
+            
+            #for index, elem in enumerate(images):
+                #print("PREV: ", images[index-1][2])
+                #print("EL: ", elem[2])
+                #if (index+1 < len(images) and index+2 < len(images) and index - 1 >= 0):
+                   # prev_el = images[index-1][2]
+                   # curr_el = elem[2]
+                   # next_el = images[index+1][2]
+                   # next2_el = images[index+2][2]
+                   # if(prev_el == curr_el == next_el == next2_el):
+                      #  print("1")
+        
                         
 
                        
