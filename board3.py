@@ -509,9 +509,6 @@ class board(object):
                         for i in range(len(temp)):
                             self.next_moveb.remove(temp[i])
 
-
-
-                    elif black_turn:  # black turn
                         board_state = GameState(state = game_array,next_to_move = 1)
                         root = MonteCarloTreeSearchNode(state=board_state, parnet= None)
                         mcts = MonteCarloTreeSearchNode(root)

@@ -15,6 +15,20 @@ def game_loop():
     game = Game(600)
     game.run()
 
+
+display_width = 800
+display_height = 600
+
+black = (0, 0, 0)
+white = (255, 255, 255)
+red = (255, 0, 0)
+
+block_color = (53, 115, 255)
+
+gameDisplay = pygame.display.set_mode((display_width, display_height))
+pygame.display.set_caption('Freedom')
+clock = pygame.time.Clock()
+
 def game_loop2():
     game = Game_AI(600)
     game.run()
