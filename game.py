@@ -13,7 +13,7 @@ draw = False
 run = True
 x_turn = True
 o_turn = False
-
+global running 
 
 class Game(object):
     """
@@ -49,7 +49,9 @@ class Game(object):
         Główna pętla gry
         """
         
+        
         self.game_array = self.board.initialize_grid()
+        #running = True
         
         while not self.handle_events():
             # działaj w pętli do momentu otrzymania sygnału do wyjścia
@@ -57,14 +59,16 @@ class Game(object):
 
     def handle_events(self):
         
+        running = True
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                return True
+                #return True
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.board.player_move(self.game_array)
         self.board.render()
 
-        #if(self.finish()):
-            #run = False
+        if(self.finish()):
+            running = False
             

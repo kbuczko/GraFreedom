@@ -5,6 +5,7 @@ import pygame
 import math
 from state import GameState
 from nodes import MonteCarloTreeSearchNode
+from search import MonteCarloTreeSearch
 
 pygame.init()
 
@@ -510,8 +511,8 @@ class board(object):
                             self.next_moveb.remove(temp[i])
 
                         board_state = GameState(state = game_array,next_to_move = 1)
-                        root = MonteCarloTreeSearchNode(state=board_state, parnet= None)
-                        mcts = MonteCarloTreeSearchNode(root)
+                        root = MonteCarloTreeSearchNode(state=board_state, parent= None)
+                        mcts = MonteCarloTreeSearch(root)
                         if not is_simulation_running:
                             t1 = threading.Thread(target=mcts.best_action, args=(100, q1))
                             t1.daemon = True
