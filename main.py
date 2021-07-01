@@ -119,13 +119,6 @@ def play_choice():
         pygame.display.update()
         clock.tick(15)
 
-def loop():
-    running = True
-
-    while running:
-        exit()
-
-
 
 def game_intro():
     intro = True
@@ -154,9 +147,5 @@ def game_intro():
         clock.tick(15)
 
 
-
-
-
 game_intro()
-pygame.quit()
-quit()
+

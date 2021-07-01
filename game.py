@@ -19,24 +19,7 @@ class Game(object):
     """
     Łączy wszystkie elementy gry w całość.
     """
-    player = 'white'
-    move = 0 #ruch nr 1 w grze albo freedom
-    first_x = 0 #poprzedni ruch pozycja x
-    first_y = 0 #poprzedni ruch pozycja y
-    x = 0 #obecny ruch pozycja x
-    y = 0 #obecny ruch pozycja y
-    nrofmove = 0 #laczna liczba ruchow w grze (potrzebna przy ruchu nr 99 i 100)
-    count1 = 0
-    count2 = 0
-    game_array =[]
 
-
-    table = [[0 for i in range(10)] for j in range(10)]
-    table2 = [[0 for i in range(10)] for j in range(10)]
-
-    def finish(self):
-        self.board.finish()
-    
     def finish(self):
         self.board.finish()
     
@@ -82,6 +65,6 @@ class Game(object):
                 self.board.player_move(self.game_array)
         self.board.render()
 
-        if(self.finish()):
-            run = False
+        #if(self.finish()):
+            #run = False
             

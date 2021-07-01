@@ -1,11 +1,8 @@
-
 import pygame
 import math
-from operator import itemgetter
+
 
 pygame.init()
-
-# DODAC ZLICZANIE FIGUR, DODAC DOWOLNE PORUSZANIE GDY POLA SĄSIADUJĄCE SĄ ZAJĘTE
 
 # Screen
 WIDTH = 600
@@ -114,7 +111,8 @@ class board(object):
                 dis = math.sqrt((x - m_x) ** 2 + (y - m_y) ** 2)
 
                 # If it's inside the square
-                if dis < WIDTH // ROWS // 2 and can_play:
+                if dis < WIDTH // ROWS // 2 and can_play:  
+                    
                     if white_turn:  # white turn
                         if self.white_pawns == 50:
                             images.append([x, y, white_IMAGE])
@@ -183,7 +181,8 @@ class board(object):
                                     self.next_moveb = [[x, y + 60], [x, y - 60], [x - 60, y], [x - 60, y - 60],
                                                        [x - 60, y + 60], [x + 60, y], [x + 60, y - 60],
                                                        [x + 60, y + 60]]
-                        elif (self.next_move == []):
+                       
+                        elif (self.next_move ==[]):
                             images.append((x, y, white_IMAGE))
                             white_turn = False
                             black_turn = True
@@ -222,8 +221,6 @@ class board(object):
 
                         for i in range(len(temp)):
                             self.next_moveb.remove(temp[i])
-
-
 
                     elif black_turn:  # black turn
                         if ([x, y] in self.next_moveb):
@@ -291,6 +288,7 @@ class board(object):
                                     self.next_move = [[x, y + 60], [x, y - 60], [x - 60, y], [x - 60, y - 60],
                                                       [x - 60, y + 60]]
                                 else:
+
                                     self.next_move = [[x, y + 60], [x, y - 60], [x - 60, y], [x - 60, y - 60],
                                                       [x - 60, y + 60], [x + 60, y], [x + 60, y - 60], [x + 60, y + 60]]
 
@@ -301,46 +299,5 @@ class board(object):
                         for i in range(len(temp)):
                             self.next_move.remove(temp[i])
 
-        if not (self.finish()):
-            # sprawdzanie wierszy
-            for row in range(len(game_array)):
-                q = game_array[row]
-                if (q[0][2] == q[1][2] == q[2][2] == q[3][2]) and q[0][2] == "b":
-                    self.points_black += 1
-
-                elif (q[0][2] == q[1][2] == q[2][2] == q[3][2]) and q[0][2] == "w":
-                    self.points_white += 1
-
-            # sprawdzanie kolumn
-            for col in range(len(game_array)):
-                if (game_array[0][col][2] == game_array[1][col][2] == game_array[2][col][2] == game_array[3][col][
-                    2]) and game_array[0][col][2] == "b":
-                    self.points_black += 1
-                elif (game_array[0][col][2] == game_array[1][col][2] == game_array[2][col][2] == game_array[3][col][
-                    2]) and game_array[0][col][2] == "w":
-                    self.points_white += 1
-
-            # print(self.points_black, self.points_black)
-            for index, elem in enumerate(game_array):
-                print("PREV: ", game_array[index][index - 1])
-                print("EL: ", elem[index])
-                if (index + 1 < len(game_array) and index + 2 < len(game_array) and index - 1 >= 0):
-                    prev_el = game_array[index][index - 1][2]
-                    curr_el = elem[index]
-                    next_el = game_array[index][index + 1][2]
-                    next2_el = game_array[index][index + 2][2]
-                    if (prev_el == curr_el == next_el == next2_el):
-                        print("1")
-
-            # for index, elem in enumerate(images):
-            # print("PREV: ", images[index-1][2])
-            # print("EL: ", elem[2])
-            # if (index+1 < len(images) and index+2 < len(images) and index - 1 >= 0):
-            # prev_el = images[index-1][2]
-            # curr_el = elem[2]
-            # next_el = images[index+1][2]
-            # next2_el = images[index+2][2]
-            # if(prev_el == curr_el == next_el == next2_el):
-            #  print("1")
 
 
