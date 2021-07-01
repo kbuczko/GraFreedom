@@ -1,5 +1,10 @@
+import queue
+import threading
+
 import pygame
 import math
+from state import GameState
+from nodes import MonteCarloTreeSearchNode
 
 pygame.init()
 
@@ -379,6 +384,9 @@ class board(object):
             return True
 
     def player_move(self, game_array):
+        is_simulation_running = False
+        t1, t2 = None, None
+        q1, q2 = queue.Queue(), queue.Queue()
         global white_turn, black_turn, images
 
         # Mouse position
@@ -504,73 +512,70 @@ class board(object):
 
 
                     elif black_turn:  # black turn
-                        if ([x, y] in self.next_moveb):
+                        board_state = GameState(state = game_array,next_to_move = 1)
+                        root = MonteCarloTreeSearchNode(state=board_state, parnet= None)
+                        mcts = MonteCarloTreeSearchNode(root)
+                        if not is_simulation_running:
+                            t1 = threading.Thread(target=mcts.best_action, args=(100, q1))
+                            t1.daemon = True
+                            t1.start()
+                            is_simulation_running = True
+                        else:
+                            if not q1.empty():
+                                best_node = q1.get()
+                                q1.queue.clear()
+                                is_simulation_running = False
+                                c_state = best_node.state
+                                c_board = c_state.board
 
-                            images.append([x, y, black_IMAGE])
-                            white_turn = True
-                            black_turn = False
-                            game_array[i][j] = (x, y, 'b', False)
-                            self.black_pawns = self.black_pawns - 1
+                                i_point = c_state.current_move.i()
+                                j_point = c_state.current_move.j()
+                                if i_point == 0:
+                                    x = 30
+                                elif i_point ==1:
+                                    x= 90
+                                elif i_point == 2:
+                                    x= 150
+                                elif i_point == 3:
+                                    x=210
+                                elif i_point == 4:
+                                    x=270
+                                elif i_point ==5:
+                                    x=330
+                                elif i_point ==6:
+                                    x=390
+                                elif i_point==7:
+                                    x=450
+                                elif i_point==8:
+                                    x=510
+                                elif i_point==9:
+                                    x=570
+                                if j_point == 0:
+                                    y = 30
+                                elif j_point == 1:
+                                    y = 90
+                                elif j_point == 2:
+                                    y = 150
+                                elif j_point == 3:
+                                    y = 210
+                                elif j_point == 4:
+                                    y = 270
+                                elif j_point == 5:
+                                    y = 330
+                                elif j_point == 6:
+                                    y = 390
+                                elif j_point == 7:
+                                    y = 450
+                                elif j_point == 8:
+                                    y = 510
+                                elif j_point == 9:
+                                    y = 570
 
-                            if (y == 570):
-                                if (x == 30):
-                                    self.next_move = [[x, y - 60], [x + 60, y], [x + 60, y - 60]]
-                                elif (x == 570):
-                                    self.next_move = [[x, y - 60], [x - 60, y], [x - 60, y - 60]]
-                                else:
-                                    self.next_move = [[x - 60, y], [x + 60, y], [x - 60, y - 60], [x + 60, y - 60],
-                                                      [x, y - 60]]
-                            elif (y == 30):
-                                if (x == 30):
-                                    self.next_move = [[x, y + 60], [x + 60, y], [x + 60, y + 60]]
-                                elif (x == 570):
-                                    self.next_move = [[x, y + 60], [x - 60, y], [x - 60, y + 60]]
-                                else:
-                                    self.next_move = [[x - 60, y], [x + 60, y], [x - 60, y + 60], [x + 60, y + 60],
-                                                      [x, y + 60]]
-                            else:
-                                if (x == 30):
-                                    self.next_move = [[x, y + 60], [x, y - 60], [x + 60, y], [x + 60, y - 60],
-                                                      [x + 60, y + 60]]
-                                elif (x == 570):
-                                    self.next_move = [[x, y + 60], [x, y - 60], [x - 60, y], [x - 60, y - 60],
-                                                      [x - 60, y + 60]]
-                                else:
-                                    self.next_move = [[x, y + 60], [x, y - 60], [x - 60, y], [x - 60, y - 60],
-                                                      [x - 60, y + 60], [x + 60, y], [x + 60, y - 60], [x + 60, y + 60]]
-                        elif self.next_moveb == []:
-                            images.append([x, y, black_IMAGE])
-                            white_turn = True
-                            black_turn = False
-                            game_array[i][j] = (x, y, 'b', False)
-                            self.black_pawns = self.black_pawns - 1
+                                images.append((x, y, white_IMAGE))
+                                white_turn = True
+                                black_turn = False
+                                game_array[i_point][j_point] = (x, y, 'w', False)
 
-                            if (y == 570):
-                                if (x == 30):
-                                    self.next_move = [[x, y - 60], [x - 60, y], [x - 60, y + 60]]
-                                elif (x == 570):
-                                    self.next_move = [[x, y - 60], [x - 60, y], [x - 60, y - 60]]
-                                else:
-                                    self.next_move = [[x - 60, y], [x + 60, y], [x - 60, y - 60], [x + 60, y - 60],
-                                                      [x, y - 60]]
-                            elif (y == 30):
-                                if (x == 30):
-                                    self.next_move = [[x, y + 60], [x + 60, y], [x + 60, y + 60]]
-                                elif (x == 570):
-                                    self.next_move = [[x, y + 60], [x - 60, y], [x - 60, y + 60]]
-                                else:
-                                    self.next_move = [[x - 60, y], [x + 60, y], [x - 60, y + 60], [x + 60, y + 60],
-                                                      [x, y + 60]]
-                            else:
-                                if (x == 30):
-                                    self.next_move = [[x, y + 60], [x, y - 60], [x + 60, y], [x + 60, y - 60],
-                                                      [x + 60, y + 60]]
-                                elif (x == 570):
-                                    self.next_move = [[x, y + 60], [x, y - 60], [x - 60, y], [x - 60, y - 60],
-                                                      [x - 60, y + 60]]
-                                else:
-                                    self.next_move = [[x, y + 60], [x, y - 60], [x - 60, y], [x - 60, y - 60],
-                                                      [x - 60, y + 60], [x + 60, y], [x + 60, y - 60], [x + 60, y + 60]]
 
                         a = [[item[0], item[1]] for item in images]
 

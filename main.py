@@ -3,6 +3,7 @@ import time
 import random
 
 from game import Game
+from game_AI import Game_AI
 
 
 pygame.init()
@@ -13,6 +14,11 @@ background_image = pygame.image.load("images/tlo.jpg")
 def game_loop():
     game = Game(600)
     game.run()
+
+def game_loop2():
+    game = Game_AI(600)
+    game.run()
+
 
 display_width = 800
 display_height = 600
@@ -93,7 +99,7 @@ def play_choice():
 
 
         button("Player vs Player", 300, 190, 195, 75, (235, 161, 52), (235, 143, 52), game_loop)
-        button("Player vs Computer", 300, 340, 195, 75, (235, 161, 52), (235, 143, 52), game_loop)
+        button("Player vs Computer", 300, 340, 195, 75, (235, 161, 52), (235, 143, 52), game_loop2)
         button("Back", 300, 490, 195, 75, (235, 161, 52), (235, 143, 52), game_intro)
 
         pygame.display.update()
