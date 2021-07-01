@@ -37,6 +37,9 @@ class Game(object):
     def finish(self):
         self.board.finish()
     
+    def finish(self):
+        self.board.finish()
+    
     def display_message(content, self):
         pygame.time.delay(500)
         win.fill(WHITE)
